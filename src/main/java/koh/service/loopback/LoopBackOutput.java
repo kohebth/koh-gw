@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import koh.core.base.SerializableResponse;
 
-public class LoopBackResponse implements SerializableResponse {
+public class LoopBackOutput implements SerializableResponse {
     @JsonProperty("name")
     String name;
     @JsonProperty("status")

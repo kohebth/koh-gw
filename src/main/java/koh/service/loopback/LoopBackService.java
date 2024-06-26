@@ -1,19 +1,13 @@
 package koh.service.loopback;
 
-import koh.core.Response;
+import koh.core.base.Service;
 
-public class LoopBackService {
-    LoopBackRequest request;
-    LoopBackResponse response;
-    public LoopBackService(LoopBackRequest request) {
-        this.request = request;
-    }
-
-    public LoopBackResponse serve() {
-        LoopBackResponse resp = new LoopBackResponse();
+public class LoopBackService implements Service<LoopBackInput, LoopBackOutput> {
+    @Override
+    public LoopBackOutput serve(LoopBackInput request) {
+        LoopBackOutput resp = new LoopBackOutput();
         resp.name = request.name;
         resp.status = request.status;
-        response = resp;
         return resp;
     }
 }

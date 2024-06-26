@@ -6,7 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import koh.core.Response;
 import koh.core.base.BaseController;
-import koh.service.loopback.LoopBackRequest;
+import koh.register.ServiceRegister;
+import koh.service.loopback.LoopBackInput;
 import koh.service.loopback.LoopBackService;
 
 import java.io.BufferedReader;
@@ -25,7 +26,9 @@ public class LoopBackController extends BaseController {
         String body = sb.toString();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        LoopBackService s = new LoopBackService(objectMapper.readValue(body, LoopBackRequest.class));
-        Response.responseJson(resp, s.serve());
+        ServiceRegister.valueOf("LOOPBACK_SERVICE");
+
+        LoopBackService s = new LoopBackService();
+        Response.responseJson(resp, s.serve(objectMapper.readValue(body, LoopBackInput.class)));
     }
 }

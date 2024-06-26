@@ -1,15 +1,14 @@
 package koh.service.loopback;
 
 import koh.core.base.SerializableRequest;
-import koh.core.base.SerializableResponse;
 import lombok.Setter;
 
 @Setter
-public class LoopBackRequest implements SerializableRequest {
+public class LoopBackInput implements SerializableRequest {
     String name;
     String status;
 
-    LoopBackRequest() {}
+    LoopBackInput() {}
 
     @Override
     public Object fromJson() {
