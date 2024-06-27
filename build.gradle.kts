@@ -13,6 +13,7 @@ dependencies {
 //    implementation("org.eclipse.jetty:jetty-server:11.0.14")
     implementation("org.eclipse.jetty:jetty-server:11.0.21")
     implementation("org.eclipse.jetty:jetty-servlet:11.0.21")
+
     implementation("jakarta.ws.rs:jakarta.ws.rs-api:2.1.6")
     implementation("org.slf4j:slf4j-api:2.0.13")
     implementation("org.slf4j:slf4j-log4j12:2.0.13")

@@ -1,11 +1,11 @@
-package koh.core;
+package koh.api.core;
 
-import koh.core.base.Serializer;
+import koh.api.core.base.Serializer;
 
 final class SerializerFactory {
 
     Serializer getSerializer() {
-        switch ()
+        return null;
     }
     private SerializerFactory() {
     }

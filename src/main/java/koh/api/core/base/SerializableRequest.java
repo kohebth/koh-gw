@@ -1,4 +1,4 @@
-package koh.core.base;
+package koh.api.core.base;
 
 public interface SerializableRequest {
     Object fromJson();

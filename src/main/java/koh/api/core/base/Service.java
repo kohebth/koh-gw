@@ -1,7 +1,4 @@
-package koh.core.base;
-
-import koh.service.loopback.LoopBackInput;
-import koh.service.loopback.LoopBackOutput;
+package koh.api.core.base;
 
 public interface Service<V extends SerializableRequest, T extends SerializableResponse> {
      T serve(V request);

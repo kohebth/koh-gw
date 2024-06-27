@@ -1,7 +1,7 @@
-package koh.core;
+package koh.api.core;
 
 import jakarta.servlet.http.HttpServletResponse;
-import koh.core.base.SerializableResponse;
+import koh.api.core.base.SerializableResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.core.MediaType;
