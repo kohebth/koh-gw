@@ -1,11 +1,15 @@
-package koh.api.core.config;
+package koh.server.config;
 
-import koh.api.core.ConfigLoader;
+import koh.server.core.ConfigLoader;
+import lombok.Data;
 
 import java.nio.file.Path;
 import java.util.Properties;
 
-public record ApplicationProperties(Path serverConfig, Path routeConfig) {
+@Data
+public class ApplicationProperties {
+    final Path serverConfig;
+    final Path routeConfig;
     public static ApplicationProperties getDefaultConfig() {
         return getConfig("application.properties");
     }

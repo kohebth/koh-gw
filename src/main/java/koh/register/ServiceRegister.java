@@ -1,8 +1,8 @@
 package koh.register;
 
-import koh.api.core.base.SerializableRequest;
-import koh.api.core.base.SerializableResponse;
-import koh.api.core.base.Service;
+import koh.server.base.SerializableRequest;
+import koh.server.base.SerializableResponse;
+import koh.server.base.Service;
 import koh.service.loopback.LoopBackService;
 
 public enum ServiceRegister {

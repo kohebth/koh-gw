@@ -1,4 +1,4 @@
-package koh.api.core.base;
+package koh.server.base;
 
 import javax.ws.rs.NotSupportedException;
 

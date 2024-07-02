@@ -1,4 +1,4 @@
-package koh.api.core.base;
+package koh.server.base;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-import static koh.api.core.Response.responseToNonExistedPath;
+import static koh.server.core.Response.responseToNonExistedPath;
 
 @Slf4j
 public abstract class BaseController extends HttpServlet {

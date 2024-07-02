@@ -1,4 +1,4 @@
-package koh.api.core.base;
+package koh.server.base;
 
 public interface Configurable<T> {
     T getConfig(String name);

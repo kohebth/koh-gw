@@ -1,9 +1,18 @@
 plugins {
     id("java")
+    id("java-library")
 }
 
 group = "koh.core"
 version = "1.0-SNAPSHOT"
+
+java {
+    toolchain {
+        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
 
 repositories {
     mavenCentral()
@@ -33,6 +42,8 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
+
+
 
 tasks.test {
     useJUnitPlatform()

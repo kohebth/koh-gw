@@ -1,6 +1,6 @@
 package koh.service.loopback;
 
-import koh.api.core.base.SerializableRequest;
+import koh.server.base.SerializableRequest;
 import lombok.Setter;
 
 @Setter

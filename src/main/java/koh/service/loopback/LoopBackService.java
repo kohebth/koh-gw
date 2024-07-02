@@ -1,6 +1,6 @@
 package koh.service.loopback;
 
-import koh.api.core.base.Service;
+import koh.server.base.Service;
 
 public class LoopBackService implements Service<LoopBackInput, LoopBackOutput> {
     @Override

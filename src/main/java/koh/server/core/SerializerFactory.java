@@ -1,6 +1,6 @@
-package koh.api.core;
+package koh.server.core;
 
-import koh.api.core.base.Serializer;
+import koh.server.base.Serializer;
 
 final class SerializerFactory {
 

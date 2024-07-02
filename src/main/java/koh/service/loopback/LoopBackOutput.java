@@ -3,7 +3,7 @@ package koh.service.loopback;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import koh.api.core.base.SerializableResponse;
+import koh.server.base.SerializableResponse;
 
 public class LoopBackOutput implements SerializableResponse {
     @JsonProperty("name")

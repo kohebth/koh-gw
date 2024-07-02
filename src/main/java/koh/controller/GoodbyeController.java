@@ -2,9 +2,9 @@ package koh.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import koh.api.core.Response;
-import koh.api.core.base.BaseController;
-import koh.api.core.base.SerializableResponse;
+import koh.server.core.Response;
+import koh.server.base.BaseController;
+import koh.server.base.SerializableResponse;
 
 
 import java.io.IOException;

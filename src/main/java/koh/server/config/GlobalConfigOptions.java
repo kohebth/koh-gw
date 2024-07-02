@@ -1,4 +1,4 @@
-package koh.api.core.config;
+package koh.server.config;
 
 public enum GlobalConfigOptions {
     PROPERTIES, SYSTEM_ENV
