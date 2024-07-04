@@ -5,7 +5,7 @@ import koh.server.config.ServerProperties;
 import koh.server.core.HttpServer;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+@Slf4j(topic = "Main Application")
 public class App {
 
     ApplicationProperties applicationProperties;
