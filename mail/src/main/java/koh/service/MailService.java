@@ -1,12 +1,15 @@
+package koh.service;
+
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
-public class Sender {
+public class MailService {
 
     private final String username;
     private final String password;
@@ -22,6 +25,7 @@ public class Sender {
             properties.load(input);
         } catch (IOException ex) {
             ex.printStackTrace();
+            System.exit(1);
         }
 
         // Extract username and password
