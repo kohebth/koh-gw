@@ -1,11 +1,11 @@
 package koh.core.config;
 
-final class SystemVariable {
-//    SystemVariable() {
-//        System.getenv("SERVICE_PORT");
-//    }
+public enum SystemVariable {
+    SYSTEM_VARIABLE;
+    getVar(String name) {
+        return System.getenv(name);
+    }
+    public static getSystemVariable(String name) {
 
-//    static synchronized SystemVariable getInstance() {
-//
-//    }
+    }
 }
