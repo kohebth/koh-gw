@@ -1,14 +1,14 @@
 package koh.service.auth;
 
-import koh.core.HttpServer;
-import koh.core.config.ServerProperties;
+import koh.core.server.JsonServer;
+import koh.core.config.ServerConfiguration;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class App {
     public static void main(String[] args) {
-        ServerProperties serverProperties = ServerProperties.getConfig("/server.properties");
-        HttpServer httpServer = new HttpServer(serverProperties);
+        ServerConfiguration serverConfiguration = new ServerConfiguration();
+        JsonServer httpServer = new JsonServer(serverConfiguration);
 
         try {
             httpServer.start();

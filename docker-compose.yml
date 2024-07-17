@@ -1,0 +1,62 @@
+version: "3.18"
+
+services:
+  dev-mail:
+    image: docker.io/mailserver/docker-mailserver:14.0.0
+    hostname: mail
+    domainname: example.com
+    container_name: dev-mail
+    ports:
+      - "25:25"    # SMTP
+      - "143:143"  # IMAP
+      - "587:587"  # Submission
+      - "993:993"  # IMAPS
+    volumes:
+      - ./maildata:/var/mail
+      - ./mailstate:/var/mail-state
+      - ./maillogs:/var/log/mail
+      - ./config/:/tmp/docker-mailserver/
+    environment:
+      - ENABLE_SPAMASSASSIN=1
+      - ENABLE_CLAMAV=1
+      - ENABLE_FAIL2BAN=1
+      - ENABLE_POSTGREY=1
+      - ONE_DIR=1
+      - DMS_DEBUG=0
+    cap_add:
+      - NET_ADMIN
+      - SYS_PTRACE
+    restart: always
+    networks:
+      - vps-network
+
+  db:
+    image: mariadb:10.8
+    container_name: dev-db
+    environment:
+      MYSQL_ROOT_PASSWORD: dev@123
+      MYSQL_DATABASE: vps_management
+      MYSQL_USER: duync
+      MYSQL_PASSWORD: dev@123
+    ports:
+      - "3306:3306"
+    volumes:
+      - .db_data:/var/lib/mysql
+    networks:
+      - vps-network
+
+  auth:
+    build:
+      dockerfile: docker/auth/Dockerfile
+      context: .
+    image: koh-auth-app
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+
+    env_file:
+      - docker/auth/.env
+
+networks:
+  vps-network:
+    external: true

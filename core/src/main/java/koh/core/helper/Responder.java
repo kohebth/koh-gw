@@ -16,11 +16,9 @@ public class Responder {
 
     public static void responseJson(HttpServletResponse resp, SerializableResponse content)
             throws IOException {
-        PrintWriter out = resp.getWriter();
         resp.setContentType(MediaType.APPLICATION_JSON);
         resp.setStatus(HttpServletResponse.SC_OK);
-        out.write(JsonMapper.serialize(content));
-        out.flush();
+        resp.getWriter().write(JsonMapper.serialize(content));
     }
 
     public static void responseToNonExistedPath(HttpServletResponse resp)
@@ -28,11 +26,13 @@ public class Responder {
         resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         resp.setContentType(MediaType.APPLICATION_JSON);
         resp.getWriter().write("{ \"status\": \"Not Found\"}");
-        resp.getWriter().flush();
     }
 
-    public static SerializableResponse emptySerializableResponse() {
-        return EMPTY_RESPONSE;
+    public static void responseEmpty(HttpServletResponse resp)
+            throws IOException {
+        resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        resp.setContentType(MediaType.APPLICATION_JSON);
+        resp.getWriter().write(JsonMapper.serialize(EMPTY_RESPONSE));
     }
 
     private Responder() {

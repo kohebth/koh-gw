@@ -1,8 +1,9 @@
 plugins {
     id("java")
+    id("application")
 }
 
-group = "koh.service"
+group = "koh"
 version = "1.0-SNAPSHOT"
 
 java {
@@ -13,15 +14,28 @@ java {
     }
 }
 
+
 repositories {
     mavenCentral()
 }
+
+application {
+    mainClass.set("koh.service.auth.App")
+}
+
+//tasks {
+//    jar {
+//        manifest {
+//            attributes.set("Main-Class", "koh.service.auth.App")
+//        }
+//    }
+//}
 
 dependencies {
     implementation(project(":core"))
 
     implementation("org.slf4j:slf4j-api:1.7.32")
-
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.3.3")
     compileOnly("org.projectlombok:lombok:1.18.22")
     annotationProcessor("org.projectlombok:lombok:1.18.22")
 

@@ -1,24 +1,19 @@
-package koh.core;
+package koh.core.server;
 
-import koh.core.config.ServerProperties;
+import koh.core.config.ServerConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 
 @Slf4j
-public class HttpServer {
-    final ServerProperties config;
+abstract class ServerLoader {
+    ServerConfiguration config;
     Server server;
-
-    public HttpServer(ServerProperties config) {
-        this.config = config;
-    }
 
     public void start()
             throws Exception {
@@ -35,7 +30,7 @@ public class HttpServer {
 
     Connector[] initializeConnectors() {
         try (ServerConnector serverConnector = new ServerConnector(this.server)) {
-            serverConnector.setPort(config.getPort());
+            serverConnector.setPort(Integer.parseInt(config.getPort()));
             serverConnector.setIdleTimeout(config.getIdleTimeout());
             serverConnector.setHost(config.getHost());
             log.info("Server connectors have been initialized");
@@ -44,8 +39,7 @@ public class HttpServer {
     }
 
     Handler initializeHandlers() {
-        ServletContextHandler handlers = new ServletContextHandler();
-        handlers.addServlet(new ServletHolder(new HttpRoute(this.config)), "/*");
+        ServletContextHandler handlers = new ControllerLoader().loadAsContextHandler(config.getRouteClass());
         log.info("Server core handlers have been initialized");
         return handlers;
     }

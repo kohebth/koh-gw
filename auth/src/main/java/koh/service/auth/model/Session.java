@@ -1,9 +1,12 @@
 package koh.service.auth.model;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class Session {
-    User user;
-    String publicSessionId;
-    LocalDateTime expireTime;
+    final User user;
+    final String publicSessionId;
+    final LocalDateTime expireTime;
 }

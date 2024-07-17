@@ -1,7 +1,7 @@
 package koh.core.base;
 
 public interface Controller {
-    SerializableResponse handle(SerializableRequest request);
+    SerializableResponse handle(SerializableRequest request) throws Exception;
 
     String getPath();
 

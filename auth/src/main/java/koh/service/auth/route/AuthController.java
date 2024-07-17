@@ -31,11 +31,11 @@ public class AuthController implements Controller {
         return AuthResponse.class;
     }
 
-    static class AuthRequest implements SerializableRequest {
+    private static class AuthRequest implements SerializableRequest {
         public String transientToken;
     }
 
-    static class AuthResponse implements SerializableResponse {
+    private static class AuthResponse implements SerializableResponse {
         public String message;
         public String publicSessionId;
     }
