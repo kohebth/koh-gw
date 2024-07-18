@@ -1,4 +1,4 @@
-package koh.core.model;
+package koh.core.base;
 
 import java.time.LocalDateTime;
 

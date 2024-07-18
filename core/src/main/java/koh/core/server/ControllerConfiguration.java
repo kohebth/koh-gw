@@ -1,7 +1,7 @@
 package koh.core.server;
 
-import koh.core.base.Controller;
 import koh.core.base.AbstractRoute;
+import koh.core.base.Controller;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 @Slf4j
-class ControllerLoader {
+class ControllerConfiguration {
 
     Map<String, Class<? extends Controller>> routes;
 
@@ -45,9 +45,7 @@ class ControllerLoader {
     public AbstractRoute requireConstructableInstant(Class<? extends AbstractRoute> c) {
         try {
             return c.getDeclaredConstructor().newInstance();
-        } catch (NoSuchMethodException |
-                 InvocationTargetException |
-                 InstantiationException |
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException e) {
             log.error("Class {} does not required constructor.", c);
             log.debug("", e);

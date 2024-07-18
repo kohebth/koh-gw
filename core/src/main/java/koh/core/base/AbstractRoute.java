@@ -7,10 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractRoute {
+
+    public AbstractRoute() {
+    }
+
     private final Map<String, Class<? extends Controller>> controllerMap = new HashMap<>();
 
-    abstract void addRoute(String path, Class<? extends Controller> controllerClass, Middleware... middlewares);
-    abstract void removeRoute(String path);
+    protected abstract void addRoute(
+            String path,
+            Class<? extends Controller> controllerClass,
+            Middleware... middlewares
+    );
+    protected abstract void removeRoute(String path);
 
     public Map<String, Class<? extends Controller>> getControllerMap() {
         return this.controllerMap;

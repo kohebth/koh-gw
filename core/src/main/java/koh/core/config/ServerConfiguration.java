@@ -1,10 +1,10 @@
 package koh.core.config;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
-@Data
-@AllArgsConstructor
+@Builder
+@Getter
 public class ServerConfiguration {
     final String host;
     final String port;
@@ -20,21 +20,19 @@ public class ServerConfiguration {
     final String sslKeyStorePassword;
     final String routeClass;
 
-    public ServerConfiguration() {
-        this(
-                DefaultServerConfiguration.HOST.value(),
-                DefaultServerConfiguration.PORT.value(),
-                Integer.parseInt(DefaultServerConfiguration.SECURE_PORT.value()),
-                Integer.parseInt(DefaultServerConfiguration.MAX_BODY_SIZE.value()),
-                Integer.parseInt(DefaultServerConfiguration.REQUEST_HEADER_SIZE.value()),
-                Integer.parseInt(DefaultServerConfiguration.RESPONSE_HEADER_SIZE.value()),
-                Integer.parseInt(DefaultServerConfiguration.OUTPUT_BUFFER_SIZE.value()),
-                Integer.parseInt(DefaultServerConfiguration.IDLE_TIMEOUT.value()),
-                Integer.parseInt(DefaultServerConfiguration.MAX_THREAD_NUM.value()),
-                Integer.parseInt(DefaultServerConfiguration.MIN_THREAD_NUM.value()),
-                DefaultServerConfiguration.SSL_KEY_STORE_PATH.value(),
-                DefaultServerConfiguration.SSL_KEY_STORE_PASSWORD.value(),
-                DefaultServerConfiguration.ROUTE_CLASS.value()
-        );
+    public static ServerConfigurationBuilder builder() {
+        return new ServerConfigurationBuilder().host(DefaultServerConfiguration.HOST.value())
+                .port(DefaultServerConfiguration.PORT.value())
+                .securePort(Integer.parseInt(DefaultServerConfiguration.SECURE_PORT.value()))
+                .maxBodySize(Integer.parseInt(DefaultServerConfiguration.MAX_BODY_SIZE.value()))
+                .requestHeaderSize(Integer.parseInt(DefaultServerConfiguration.REQUEST_HEADER_SIZE.value()))
+                .responseHeaderSize(Integer.parseInt(DefaultServerConfiguration.RESPONSE_HEADER_SIZE.value()))
+                .outputBufferSize(Integer.parseInt(DefaultServerConfiguration.OUTPUT_BUFFER_SIZE.value()))
+                .idleTimeout(Integer.parseInt(DefaultServerConfiguration.IDLE_TIMEOUT.value()))
+                .maxThreadNum(Integer.parseInt(DefaultServerConfiguration.MAX_THREAD_NUM.value()))
+                .minThreadNum(Integer.parseInt(DefaultServerConfiguration.MIN_THREAD_NUM.value()))
+                .sslKeyStorePath(DefaultServerConfiguration.SSL_KEY_STORE_PATH.value())
+                .sslKeyStorePassword(DefaultServerConfiguration.SSL_KEY_STORE_PASSWORD.value())
+                .routeClass(DefaultServerConfiguration.ROUTE_CLASS.value());
     }
 }
