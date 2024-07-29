@@ -1,0 +1,6 @@
+.git
+.docker_cache
+.idea
+**/build
+**/.gradle
+*.env

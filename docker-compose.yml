@@ -1,63 +1,84 @@
 version: "3.18"
 
 services:
-  dev-mail:
-    image: docker.io/mailserver/docker-mailserver:14.0.0
+  gradle:
+    build:
+      dockerfile: docker/gradle.Dockerfile
+      context: .
+    image: koh/gradle-base
+
+  mail:
+    env_file: develop.env
+    build:
+      dockerfile: docker/mail.Dockerfile
+      context: .
+    image: koh/mail-hub
     hostname: mail
     domainname: example.com
-    container_name: dev-mail
     ports:
-      - "25:25"    # SMTP
+      - "25:25"      # SMTP
       - "143:143"  # IMAP
       - "587:587"  # Submission
       - "993:993"  # IMAPS
     volumes:
-      - ./maildata:/var/mail
-      - ./mailstate:/var/mail-state
-      - ./maillogs:/var/log/mail
-      - ./config/:/tmp/docker-mailserver/
-    environment:
-      - ENABLE_SPAMASSASSIN=1
-      - ENABLE_CLAMAV=1
-      - ENABLE_FAIL2BAN=1
-      - ENABLE_POSTGREY=1
-      - ONE_DIR=1
-      - DMS_DEBUG=0
+      - .docker_cache/dms/maildata:/var/mail
+      - .docker_cache/dms/mailstate:/var/mail-state
+      - .docker_cache/dms/maillogs:/var/log/mail
+      - .docker_cache/config/:/tmp/docker-mailserver/
     cap_add:
       - NET_ADMIN
       - SYS_PTRACE
     restart: always
     networks:
-      - vps-network
+      - default
 
   db:
-    image: mariadb:10.8
-    container_name: dev-db
-    environment:
-      MYSQL_ROOT_PASSWORD: dev@123
-      MYSQL_DATABASE: vps_management
-      MYSQL_USER: duync
-      MYSQL_PASSWORD: dev@123
+    env_file: develop.env
+    build:
+      dockerfile: docker/db/db.Dockerfile
+      context: .
+    image: koh/db-hub
+#    environment:
+#      MYSQL_ROOT_PASSWORD: dev@123
+#      MYSQL_DATABASE: vps_management
+#      MYSQL_USER: duync
+#      MYSQL_PASSWORD: dev@123
     ports:
       - "3306:3306"
     volumes:
-      - ./.db_data:/var/lib/mysql
-      - ./docker/db:/docker-entrypoint-initdb.d
+      - .docker_cache/db_data:/var/lib/mysql
     networks:
-      - vps-network
+      - default
 
   auth:
+    env_file: develop.env
     build:
-      dockerfile: docker/auth/Dockerfile
+      dockerfile: docker/auth/auth.Dockerfile
       context: .
-    image: koh-auth-app
+    image: koh/auth-app
     ports:
-      - "8080:8080"
-      - "8081:8081"
+      - 8080:8080
+      - 8081:8081
+    expose:
+      - 8080
+    networks:
+      - default
 
-    env_file:
-      - docker/auth/.env
+  vps:
+    env_file: develop.env
+    build:
+      dockerfile: docker/vps/vps.Dockerfile
+      context: .
+    image: koh/vps-app
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker:/var/lib/docker
+    networks:
+      - default
 
 networks:
   vps-network:
+    external: true
+  default:
+    name: vps-network
     external: true
