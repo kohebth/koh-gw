@@ -1,13 +1,11 @@
 package koh.service.auth.handler;
 
-import koh.service.auth.UserRepository;
-
-import java.util.Objects;
+import koh.db.hub.tables.daos.UserDao;
 
 public class ForgetService {
-    UserRepository userDAO = new UserRepository();
+    UserDao userDAO = new UserDao();
 
     public Object forget(String email) {
-        return userDAO.findAll().stream().filter(o -> Objects.equals(o.getEmail(), email)).findFirst();
+        return userDAO.fetchByEmail(email).stream().findFirst();
     }
 }

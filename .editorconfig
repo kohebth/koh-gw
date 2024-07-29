@@ -89,7 +89,7 @@ ij_java_doc_do_not_wrap_if_one_line = false
 ij_java_doc_enable_formatting = true
 ij_java_doc_enable_leading_asterisks = true
 ij_java_doc_indent_on_continuation = false
-ij_java_doc_keep_empty_lines = true
+ij_java_doc_keep_empty_lines = false
 ij_java_doc_keep_empty_parameter_tag = true
 ij_java_doc_keep_empty_return_tag = true
 ij_java_doc_keep_empty_throws_tag = true
@@ -159,7 +159,7 @@ ij_java_parentheses_expression_new_line_after_left_paren = false
 ij_java_parentheses_expression_right_paren_on_new_line = false
 ij_java_place_assignment_sign_on_next_line = false
 ij_java_prefer_longer_names = true
-ij_java_prefer_parameters_wrap = true
+ij_java_prefer_parameters_wrap = false
 ij_java_record_components_wrap = on_every_item
 ij_java_repeat_annotations = 
 ij_java_repeat_synchronized = true
@@ -270,7 +270,7 @@ ij_java_visibility = public
 ij_java_while_brace_force = always
 ij_java_while_on_new_line = false
 ij_java_wrap_comments = false
-ij_java_wrap_first_method_in_call_chain = false
+ij_java_wrap_first_method_in_call_chain = true
 ij_java_wrap_long_lines = false
 
 [*.properties]

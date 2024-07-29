@@ -1,51 +1,55 @@
 package koh.service.auth.route;
 
-import com.sun.jna.platform.win32.COM.Unknown;
 import koh.core.base.Controller;
 import koh.core.base.SerializableRequest;
 import koh.core.base.SerializableResponse;
+import koh.db.hub.tables.pojos.User;
 import koh.service.auth.ResponseCode;
 import koh.service.auth.handler.RegisterService;
 import koh.service.auth.handler.SendEmailService;
-import koh.service.auth.helper.Helper;
-import koh.service.auth.model.User;
+import koh.service.auth.helper.Validators;
 
 import java.util.Optional;
 
 public class RegisterController implements Controller {
     RegisterService registerService = new RegisterService();
     SendEmailService sendEmailService = new SendEmailService();
+    Validators validators = new Validators();
 
-    @Override public SerializableResponse handle(SerializableRequest request) {
+    @Override
+    public SerializableResponse handle(SerializableRequest request) {
         RegisterRequest payload = (RegisterRequest) request;
         RegisterResponse response = new RegisterResponse();
 
-        if (!Helper.isSisEmailValid(payload.email)) {
-            response.message = "Your email is not at `sis.hust.edu.vn`";
+        if (!validators.isSchoolEmail(payload.email)) {
+            response.message = "Please, enter your school email!`";
             response.code = ResponseCode.INVALID_EMAIL.code;
+            return response;
         }
 
-        RegisterService registerHandler = new RegisterService();
-        Optional<User> user = registerHandler.register(payload.email, payload.password);
+        Optional<User> user = registerService.register(payload.email, payload.password);
 
         if (user.isPresent()) {
             sendEmailService.sendAccessTokenEmail(user.get());
 
             response.code = ResponseCode.CREATED_USER.code;
-            response.message = "New User is created";
+            response.message = "User is registered successfully";
         }
         return response;
     }
 
-    @Override public String getPath() {
+    @Override
+    public String getPath() {
         return "/register";
     }
 
-    @Override public Class<? extends SerializableRequest> getRequestClass() {
+    @Override
+    public Class<? extends SerializableRequest> getRequestClass() {
         return RegisterRequest.class;
     }
 
-    @Override public Class<? extends SerializableResponse> getResponseClass() {
+    @Override
+    public Class<? extends SerializableResponse> getResponseClass() {
         return RegisterResponse.class;
     }
 

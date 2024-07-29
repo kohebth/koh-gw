@@ -1,6 +1,6 @@
 package koh.service.auth.handler;
 
-import koh.service.auth.model.User;
+import koh.db.hub.tables.pojos.User;
 
 public class SendEmailService {
     public void sendResetPasswordEmail(User user) {

@@ -1,28 +1,27 @@
 package koh.service.auth.handler;
 
-import koh.service.auth.UserRepository;
-import koh.service.auth.model.User;
+import koh.db.hub.DSLContextFactory;
+import koh.db.hub.tables.daos.UserDao;
+import koh.db.hub.tables.pojos.User;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class RegisterService {
-    UserRepository userDAO = new UserRepository();
-
     public Optional<User> register(String email, String password) {
-        Optional<User>
-                existedUser = userDAO.findAll()
-                .stream()
-                .filter(o -> Objects.equals(o.getEmail(), email))
-                .findFirst()
-                .stream()
-                .findAny();
+        UserDao userDao = null;
+        try {
+            userDao = new UserDao(DSLContextFactory.getContext().configuration());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        Optional<User> existedUser = userDao.fetchByEmail(email).stream().findFirst();
         if (existedUser.isPresent()) {
             return Optional.empty();
         }
-
-        User newUser = userDAO.save(new User(null, email, password, LocalDateTime.now()));
+        User newUser = new User(null, email, password);
+        userDao.insert(newUser);
         return Optional.of(newUser);
     }
 }

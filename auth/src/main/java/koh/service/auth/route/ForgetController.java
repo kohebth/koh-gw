@@ -3,8 +3,8 @@ package koh.service.auth.route;
 import koh.core.base.Controller;
 import koh.core.base.SerializableRequest;
 import koh.core.base.SerializableResponse;
+import koh.db.hub.tables.pojos.User;
 import koh.service.auth.handler.ForgetService;
-import koh.service.auth.model.User;
 
 public class ForgetController implements Controller {
     @Override
