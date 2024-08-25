@@ -1,0 +1,28 @@
+version: "3.18"
+
+services:
+  gateway:
+    env_file: .env
+    build:
+      dockerfile: docker/Dockerfile
+      context: .
+    image: koh/gw
+    container_name: gw
+    ports:
+      - "8443:443"
+      - "8081:8081"
+    expose:
+      - 443
+    networks:
+      - default
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 256M
+networks:
+  vps-network:
+    external: true
+  default:
+    name: vps-network
+    external: true

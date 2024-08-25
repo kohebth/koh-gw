@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.2.0/jsrsasign-all-min.js"></script>
+</head>
+<body>
+<form id="login-form">
+    <label>Email: <input type="text" id="email"></label><br>
+    <label>Password: <input type="password" id="password"></label><br>
+    <input type="button" value="Login" onclick="submitLogin()">
+</form>
+
+<script>
+    let authToken = '';
+
+    // Fetch the token from the server
+    function fetchToken() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/token", true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                authToken = xhr.responseText.split(': ')[1];
+            } else {
+                console.error('Failed to fetch token');
+            }
+        };
+        xhr.send();
+    }
+
+    // Call fetchToken when the page loads
+    window.onload = fetchToken;
+
+    function submitLogin() {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+
+        // Generate JWT with the token as the secret key
+        var header = {alg: "HS256", typ: "JWT"};
+        var payload = {
+            email: email,
+            password: password,
+            timestamp: Date.now()
+        };
+
+        var jwt = KJUR.jws.JWS.sign("HS256", JSON.stringify(header), JSON.stringify(payload), authToken);
+
+        // Send JWT and token via an HTTP POST request
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/login", true);
+        xhr.setRequestHeader("Authorization", "Bearer " + jwt);
+        xhr.setRequestHeader("X-Secret-Key", authToken);
+        xhr.send();
+    }
+</script>
+</body>
+</html>

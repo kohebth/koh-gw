@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Resource</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.2.0/jsrsasign-all-min.js"></script>
+</head>
+<body>
+<form id="resource-form">
+    <label>User Email: <input type="text" id="email"></label><br>
+    <label>Resource:
+        <select id="resource">
+            <option value="vps">VPS</option>
+            <option value="mysql">MySQL</option>
+        </select>
+    </label><br>
+    <label>OS (for VPS only):
+        <select id="os">
+            <option value="ubuntu22.04">Ubuntu 22.04</option>
+            <!-- Add more OS options if needed -->
+        </select>
+    </label><br>
+    <input type="button" value="Create Resource" onclick="submitResource()">
+</form>
+
+<script>
+    let authToken = '';
+
+    // Fetch the token from the server
+    function fetchToken() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/token", true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                authToken = xhr.responseText.split(': ')[1];
+            } else {
+                console.error('Failed to fetch token');
+            }
+        };
+        xhr.send();
+    }
+
+    // Call fetchToken when the page loads
+    window.onload = fetchToken;
+
+    function submitResource() {
+        var email = document.getElementById('email').value;
+        var resource = document.getElementById('resource').value;
+        var os = document.getElementById('os').value;
+
+        // Generate JWT with the token as the secret key
+        var header = {alg: "HS256", typ: "JWT"};
+        var payload = {
+            email: email,
+            timestamp: Date.now()
+        };
+
+        var jwt = KJUR.jws.JWS.sign("HS256", JSON.stringify(header), JSON.stringify(payload), authToken);
+
+        // Send JWT and token via an HTTP POST request
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/resource", true);
+        xhr.setRequestHeader("Authorization", "Bearer " + jwt);
+        xhr.setRequestHeader("X-Secret-Key", authToken);
+
+        // Create FormData to send resource details
+        var formData = new FormData();
+        formData.append("resource", resource);
+        if (resource === "vps") {
+            formData.append("os", os);
+        }
+
+        xhr.send(formData);
+    }
+</script>
+</body>
+</html>
