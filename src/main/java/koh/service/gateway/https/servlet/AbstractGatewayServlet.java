@@ -1,4 +1,4 @@
-package koh.service.gateway.servlet;
+package koh.service.gateway.https.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -27,7 +27,7 @@ public abstract class AbstractGatewayServlet extends HttpServlet {
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write("Request failure");
-            if (Boolean.TRUE.equals(AppConfig.APP_DEBUG_MODE)) {
+            if (Boolean.TRUE.equals(AppConfig.HTTPS_INTERNAL_RESPONSE)) {
                 resp.getWriter().write("Error log: ");
                 resp.getWriter().write(Arrays.toString(e.getStackTrace()));
             }

@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -35,8 +36,6 @@ public class KafkaConnection {
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
-        KafkaConsumer<String, String> c = new KafkaConsumer<>(consumerProps);
-        c.subscribe(Arrays.stream(KafkaTopic.values()).map(KafkaTopic::name).collect(Collectors.toList()));
-        return c;
+        return new KafkaConsumer<>(consumerProps);
     }
 }

@@ -7,6 +7,7 @@ RUN apt install curl lsof procps -y
 
 COPY build/distributions/${APP}-1.0-SNAPSHOT.tar /opt/dist.tar
 COPY docker/key/https_keystore.p12 /root/.cert/https.p12
+COPY docker/key/jw.key.pub /root/.key/jw256.pub
 
 WORKDIR /
 RUN tar -xf /opt/dist.tar

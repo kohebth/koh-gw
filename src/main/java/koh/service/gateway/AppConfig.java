@@ -25,7 +25,11 @@ public class AppConfig {
 
     public static final String APP_PRIVATE_KEY_PATH = System.getenv("APP_PRIVATE_KEY_PATH");
     public static final String APP_PUBLIC_KEY_PATH = System.getenv("APP_PUBLIC_KEY_PATH");
-    public static final Boolean APP_DEBUG_MODE = Boolean.parseBoolean(System.getenv("APP_DEBUG_MODE"));
+    public static final Integer HTTPS_MAX_TIMEOUT_RESPONSE_SECONDS = Integer.parseInt(
+            System.getenv("HTTPS_MAX_TIMEOUT_RESPONSE_SECONDS")
+    );
+    public static final Boolean HTTPS_INTERNAL_RESPONSE = Boolean.parseBoolean(
+            System.getenv("HTTPS_INTERNAL_RESPONSE"));
 
     public static final String HTTPS_KEYSTORE_PATH = System.getenv("HTTPS_KEYSTORE_PATH");
     public static final String HTTPS_KEYSTORE_PASSWORD = System.getenv("HTTPS_KEYSTORE_PASSWORD");

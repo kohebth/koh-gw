@@ -1,4 +1,4 @@
-package koh.service.gateway.servlet;
+package koh.service.gateway.https.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

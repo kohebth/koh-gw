@@ -1,19 +1,30 @@
 package koh.service.gateway;
 
-import koh.service.gateway.https.HttpsServe;
+import koh.service.gateway.https.HttpsServer;
+import koh.service.gateway.https.filter.JwtAuthorizer;
+import koh.service.gateway.https.servlet.*;
 import koh.service.gateway.kafka.KafkaEventController;
-import koh.service.gateway.servlet.*;
+import koh.service.gateway.secure.Jwt;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import static koh.service.gateway.kafka.KafkaReqTopic.*;
 
 public class App {
+    final Jwt jwt;
     final KafkaEventController kafkaEventController;
-    final HttpsServe httpsServe;
+    final HttpsServer https;
 
-    App() {
+    App()
+            throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
+        jwt = new Jwt(AppConfig.APP_PUBLIC_KEY_PATH);
         // Make a Kafka Provider/Consumer into request/response handler
         kafkaEventController = new KafkaEventController(AppConfig.KAFKA_NODE, AppConfig.KAFKA_GROUP);
 
         // Make an SslContextFactory with PKCS12 keystore configuration
-        httpsServe = new HttpsServe(
+        https = new HttpsServer(
                 443,
                 AppConfig.HTTPS_KEYSTORE_TYPE,
                 AppConfig.HTTPS_KEYSTORE_PATH,
@@ -22,16 +33,18 @@ public class App {
     }
 
     void configure() {
-//        httpsServe.path("/login", new LoginServlet(kafkaEventController));
-        httpsServe.path("/register", new RegisterServlet(kafkaEventController));
-//        httpsServe.path("/resource", new ResourceServlet(kafkaEventController));
-//        httpsServe.path("/vps", new VpsServlet(kafkaEventController));
-//        httpsServe.path("/mysql", new MysqlServlet(kafkaEventController));
+        JwtAuthorizer authorizer = new JwtAuthorizer(jwt);
+        https.path("/request/*", new RequestServlet(kafkaEventController));
+        https.path("/register", new ForwardServlet(TOPIC_AUTH_REGISTER_REQUEST, kafkaEventController));
+        https.path("/login", new ForwardServlet(TOPIC_AUTH_LOGIN_REQUEST, kafkaEventController));
+        https.path("/refresh", new ForwardServlet(TOPIC_AUTH_REFRESH_REQUEST, kafkaEventController), authorizer);
+        https.path("/vps", new VpsServlet(kafkaEventController), authorizer);
+        https.path("/mysql", new MysqlServlet(kafkaEventController), authorizer);
     }
 
     void start()
             throws Exception {
-        httpsServe.start();
+        https.start();
     }
 
     public static void main(String[] args)
