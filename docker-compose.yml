@@ -12,7 +12,8 @@ services:
       - 443
       - 8081
     networks:
-      - default
+      - sv-network
+      - kafka-network
     deploy:
       resources:
         limits:
@@ -21,6 +22,6 @@ services:
 networks:
   vps-network:
     external: true
-  default:
-    name: vps-network
+
+  kafka-network:
     external: true
