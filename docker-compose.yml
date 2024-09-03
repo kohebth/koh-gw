@@ -20,7 +20,7 @@ services:
           cpus: 0.5
           memory: 256M
 networks:
-  vps-network:
+  sv-network:
     external: true
 
   kafka-network:
